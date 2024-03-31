@@ -55,17 +55,17 @@ class _MyHomePageState extends State<MyHomePage> {
           child: Stack(
             alignment: Alignment.center,
             children: [
-              Container(
-                transform: Matrix4.rotationZ(roll),
-                transformAlignment: Alignment.center,
-                child: Container(
-                    decoration: const BoxDecoration(
-                  border: Border(bottom: BorderSide(color: Colors.green)),
-                )),
-              ),
+              // Container(
+              //   transform: Matrix4.rotationZ(roll),
+              //   transformAlignment: Alignment.center,
+              //   child: Container(
+              //       decoration: const BoxDecoration(
+              //     border: Border(bottom: BorderSide(color: Colors.green)),
+              //   )),
+              // ),
               CustomPaint(
                 size: Size.infinite,
-                painter: AKCustomPainter(),
+                painter: AKCustomPainter(radian: roll),
               ),
               Column(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -90,7 +90,7 @@ class _MyHomePageState extends State<MyHomePage> {
       (UserAccelerometerEvent event) {
         setState(() {
           _userAccelerometerValues =
-              "加速度センサー\nx:${event.x}\ny:${event.y}\nz:${event.z}";
+              "加速度センサー\nx:${event.x.toStringAsFixed(2)}\ny:${event.y.toStringAsFixed(2)}\nz:${event.z.toStringAsFixed(2)}";
         });
       },
     );
@@ -101,7 +101,7 @@ class _MyHomePageState extends State<MyHomePage> {
           g_y += event.y;
           g_z += event.z;
           _gyroscopeValues =
-              "ジャイロセンサー\nx:${event.x}\ny:${event.y}\nz:${event.z}";
+              "ジャイロセンサー\nx:${event.x.toStringAsFixed(2)}\ny:${event.y.toStringAsFixed(2)}\nz:${event.z.toStringAsFixed(2)}";
         });
       },
     );
@@ -119,6 +119,10 @@ class _MyHomePageState extends State<MyHomePage> {
 }
 
 class AKCustomPainter extends CustomPainter {
+  final double radian;
+
+  AKCustomPainter({super.repaint, required this.radian});
+
   @override
   void paint(Canvas canvas, Size size) {
     // Vertical line
@@ -131,17 +135,22 @@ class AKCustomPainter extends CustomPainter {
     path_0.moveTo(size.width * 0.50, 0);
     path_0.lineTo(size.width * 0.50, size.height);
 
+
     canvas.drawPath(path_0, paint_0);
+
+    canvas.translate(size.width / 2, size.height / 2);
+    canvas.rotate(radian);
+    canvas.translate(-size.width / 2, -size.height / 2);
 
     // Horizontal line
     Paint paint_1 = Paint()
-      ..color = const Color.fromARGB(255, 33, 150, 243)
+      ..color = Colors.green
       ..style = PaintingStyle.stroke
       ..strokeWidth = 1.34;
 
     Path path_1 = Path();
-    path_1.moveTo(0, size.height * 0.50);
-    path_1.lineTo(size.width, size.height * 0.50);
+    path_1.moveTo(-size.width, size.height * 0.50);
+    path_1.lineTo(size.width * 2, size.height * 0.50);
 
     canvas.drawPath(path_1, paint_1);
   }
