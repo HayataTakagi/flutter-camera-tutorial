@@ -12,6 +12,10 @@ dependencies:
 
   cupertino_icons: ^1.0.6
   sensors_plus: ^5.0.0
+  aeyrium_sensor:
+    git:
+      url: https://github.com/tensor5/aeyrium-sensor
+      ref: null-safe
 
 dev_dependencies:
   flutter_test:

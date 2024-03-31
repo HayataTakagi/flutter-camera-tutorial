@@ -1,19 +1,25 @@
 PODS:
+  - aeyrium_sensor (1.0.0):
+    - Flutter
   - Flutter (1.0.0)
   - sensors_plus (0.0.1):
     - Flutter
 
 DEPENDENCIES:
+  - aeyrium_sensor (from `.symlinks/plugins/aeyrium_sensor/ios`)
   - Flutter (from `Flutter`)
   - sensors_plus (from `.symlinks/plugins/sensors_plus/ios`)
 
 EXTERNAL SOURCES:
+  aeyrium_sensor:
+    :path: ".symlinks/plugins/aeyrium_sensor/ios"
   Flutter:
     :path: Flutter
   sensors_plus:
     :path: ".symlinks/plugins/sensors_plus/ios"
 
 SPEC CHECKSUMS:
+  aeyrium_sensor: cdaa0bdd7206824ea4fb910c627cad05275362e5
   Flutter: e0871f40cf51350855a761d2e70bf5af5b9b5de7
   sensors_plus: 18a9b346c43e157da17d2c8e99def703f9efb9d8
 
