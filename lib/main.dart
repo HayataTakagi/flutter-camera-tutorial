@@ -51,25 +51,35 @@ class _MyHomePageState extends State<MyHomePage> {
         navigationBar: const CupertinoNavigationBar(
           middle: Text("デモページ"),
         ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: <Widget>[
-            Text(_userAccelerometerValues),
-            Text(_gyroscopeValues),
-            Text(
-                "ジャイロ累積値\nx: ${g_x.toStringAsFixed(2)}\ny: ${g_y.toStringAsFixed(2)}\nz: ${g_z.toStringAsFixed(2)}"),
-            Text(
-                "pitch: ${pitch.toStringAsFixed(2)}\npitch_: ${pitch_.round()}\nroll: ${roll.toStringAsFixed(2)}\nroll_: ${roll_.round()}"),
-            Container(
-              transform: Matrix4.rotationZ(roll),
-              transformAlignment: Alignment.center,
-              child: Container(
-                  width: 2000,
-                  decoration: const BoxDecoration(
-                    border: Border(bottom: BorderSide(color: Colors.green)),
-                  )),
-            )
-          ],
+        child: SafeArea(
+          child: Stack(
+            alignment: Alignment.center,
+            children: [
+              Container(
+                transform: Matrix4.rotationZ(roll),
+                transformAlignment: Alignment.center,
+                child: Container(
+                    decoration: const BoxDecoration(
+                  border: Border(bottom: BorderSide(color: Colors.green)),
+                )),
+              ),
+              CustomPaint(
+                size: Size.infinite,
+                painter: AKCustomPainter(),
+              ),
+              Column(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: <Widget>[
+                  Text(_userAccelerometerValues),
+                  Text(_gyroscopeValues),
+                  Text(
+                      "ジャイロ累積値\nx: ${g_x.toStringAsFixed(2)}\ny: ${g_y.toStringAsFixed(2)}\nz: ${g_z.toStringAsFixed(2)}"),
+                  Text(
+                      "pitch: ${pitch.toStringAsFixed(2)}\npitch_: ${pitch_.round()}\nroll: ${roll.toStringAsFixed(2)}\nroll_: ${roll_.round()}"),
+                ],
+              )
+            ],
+          ),
         ));
   }
 
@@ -105,5 +115,39 @@ class _MyHomePageState extends State<MyHomePage> {
         roll_ = event.roll * 180 / pi;
       });
     });
+  }
+}
+
+class AKCustomPainter extends CustomPainter {
+  @override
+  void paint(Canvas canvas, Size size) {
+    // Vertical line
+    Paint paint_0 = Paint()
+      ..color = const Color.fromARGB(255, 33, 150, 243)
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 1.34;
+
+    Path path_0 = Path();
+    path_0.moveTo(size.width * 0.50, 0);
+    path_0.lineTo(size.width * 0.50, size.height);
+
+    canvas.drawPath(path_0, paint_0);
+
+    // Horizontal line
+    Paint paint_1 = Paint()
+      ..color = const Color.fromARGB(255, 33, 150, 243)
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 1.34;
+
+    Path path_1 = Path();
+    path_1.moveTo(0, size.height * 0.50);
+    path_1.lineTo(size.width, size.height * 0.50);
+
+    canvas.drawPath(path_1, paint_1);
+  }
+
+  @override
+  bool shouldRepaint(covariant CustomPainter oldDelegate) {
+    return true;
   }
 }
