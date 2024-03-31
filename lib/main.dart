@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:aeyrium_sensor/aeyrium_sensor.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -39,7 +41,9 @@ class _MyHomePageState extends State<MyHomePage> {
   double g_y = 0;
   double g_z = 0;
   double pitch = 0;
+  double pitch_ = 0;
   double roll = 0;
+  double roll_ = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -55,15 +59,15 @@ class _MyHomePageState extends State<MyHomePage> {
             Text(
                 "ジャイロ累積値\nx: ${g_x.toStringAsFixed(2)}\ny: ${g_y.toStringAsFixed(2)}\nz: ${g_z.toStringAsFixed(2)}"),
             Text(
-                "pitch: ${pitch.toStringAsFixed(2)}\nroll: ${roll.toStringAsFixed(2)}"),
+                "pitch: ${pitch.toStringAsFixed(2)}\npitch_: ${pitch_.round()}\nroll: ${roll.toStringAsFixed(2)}\nroll_: ${roll_.round()}"),
             Container(
               transform: Matrix4.rotationZ(roll),
               transformAlignment: Alignment.center,
               child: Container(
-                width: 2000,
+                  width: 2000,
                   decoration: const BoxDecoration(
-                border: Border(bottom: BorderSide(color: Colors.green)),
-              )),
+                    border: Border(bottom: BorderSide(color: Colors.green)),
+                  )),
             )
           ],
         ));
@@ -96,7 +100,9 @@ class _MyHomePageState extends State<MyHomePage> {
       // print("Pitch ${event.pitch} and Roll ${event.roll}");
       setState(() {
         pitch = event.pitch;
+        pitch_ = event.pitch * 180 / pi;
         roll = event.roll;
+        roll_ = event.roll * 180 / pi;
       });
     });
   }
